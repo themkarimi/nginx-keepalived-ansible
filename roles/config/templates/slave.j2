@@ -1,0 +1,31 @@
+global_defs {
+  router_id nginx
+}
+
+vrrp_script check_nginx {
+  script "pidof nginx"
+  interval 2
+  weight 50
+}
+
+vrrp_instance VI_01 {
+  state SLAVE
+  interface ens160
+  virtual_router_id 151
+  priority 100
+
+unicast_src_ip {{ slave}}
+    unicast_peer {
+        {{ master }}
+   }
+  virtual_ipaddress {
+    {{ vip }}
+  }
+  track_script {
+    check_nginx
+  }
+  authentication {
+    auth_type PASS
+    auth_pass secret
+  }
+}

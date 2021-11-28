@@ -1,0 +1,14 @@
+---
+- name: deploy keepalived master config
+  template:
+    src: master.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: node_status == "master"
+  notify: restart keepalived
+- name: deploy keepalived slave config
+  template:
+    src: slave.j2
+    dest: /etc/keepalived/keepalived.conf
+  when: node_status == "slave"
+  notify: restart keepalived
+
