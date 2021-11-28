@@ -10,5 +10,5 @@
     src: slave.j2
     dest: /etc/keepalived/keepalived.conf
   when: node_status == "slave"
-  notify: restart keepalived
+  notify: start keepalived
 
